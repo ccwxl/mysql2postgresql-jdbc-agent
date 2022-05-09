@@ -70,4 +70,10 @@ public class SqlTest {
         System.out.println(longs);
     }
 
+    @Test
+    void testDeleteSubLimit() {
+        String sql = "DELETE FROM xxl_job_logglue WHERE id NOT IN ( SELECT id FROM ( SELECT id FROM xxl_job_logglue WHERE `job_id` = ? ORDER BY update_time DESC LIMIT 0, ? ) t1 ) AND `job_id` = ?";
+        int longs = jdbcTemplate.update(sql, 2, 2, 30);
+        System.out.println(longs);
+    }
 }

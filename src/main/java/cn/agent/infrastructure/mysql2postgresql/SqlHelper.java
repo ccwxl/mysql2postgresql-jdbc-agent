@@ -3,6 +3,7 @@ package cn.agent.infrastructure.mysql2postgresql;
 import cn.agent.infrastructure.mysql2postgresql.function.BaseFunction;
 import cn.agent.infrastructure.mysql2postgresql.function.DateAddFunction;
 import net.sf.jsqlparser.expression.*;
+import net.sf.jsqlparser.expression.operators.arithmetic.Concat;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
@@ -172,6 +173,20 @@ public class SqlHelper {
 
                 @Override
                 public void visit(Delete delete) {
+                    Expression where = delete.getWhere();
+                    if (where != null) {
+                        where.accept(new ExpressionVisitorAdapter() {
+                            @Override
+                            public void visit(SubSelect subSelect) {
+                                SelectBody selectBody = subSelect.getSelectBody();
+                                if (selectBody instanceof PlainSelect) {
+                                    replacePageSql((PlainSelect) selectBody);
+                                }
+                                needModify.set(true);
+                            }
+                        });
+                    }
+
                     if (delete.getLimit() != null) {
                         // 重写delete limit , 使用pg的 ctid 删除.
                         InExpression inExpression = new InExpression();
