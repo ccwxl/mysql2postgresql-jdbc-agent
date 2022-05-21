@@ -12,6 +12,14 @@
 
 - 配置java agent
 
+## docker
+
+```
+docker build -t mysql2postgresql-jdbc-agent:1.0.0 .
+docker tag mysql2postgresql-jdbc-agent:1.0.0 221.214.10.82:81/mysql2postgresql-jdbc-agent/mysql2postgresql-jdbc-agent:1.0.0
+docker push 221.214.10.82:81/mysql2postgresql-jdbc-agent/mysql2postgresql-jdbc-agent:1.0.0
+```
+
 ## k8s
 
 - initContainers
