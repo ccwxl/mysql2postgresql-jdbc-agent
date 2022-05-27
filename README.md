@@ -34,7 +34,7 @@ spec:
     spec:
       initContainers:
         - name: mysql2postgresql-jdbc-agent
-          image: 221.214.10.82:81/mysql2postgresql-jdbc-agent/mysql2postgresql-jdbc-agent:1.0.0
+          image: xxxx:81/mysql2postgresql-jdbc-agent/mysql2postgresql-jdbc-agent:1.0.0
           command: [ "/bin/sh" ]
           args: [ "-c", "cp -R /tmp/mysql2postgresql-jdbc-agent-1.0.0.jar /agent/" ]
           volumeMounts:
