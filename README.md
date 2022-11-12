@@ -1,23 +1,25 @@
 ## mysql2postgresql-jdbc-agent
 
-- 使用`java agent`无侵入的方式使用`postgresql`替换`mysql`. 参考 `https://github.com/wuwen5/ojdbc-mysql2oracle` 移植了`postgresql`版本
+- 使用`java agent`无侵入的方式使用`postgresql`替换`mysql`. 参考 `https://github.com/wuwen5/ojdbc-mysql2oracle`
+  移植了`postgresql`版本
 - `nacos`基于`2.1.0` 测试
 - `xxljob`基于`2.3.0` 测试
 
-### nacos 配置
-- 修改启动参数增加agent
-```shell
-#将JAVA_OPT="${JAVA_OPT} -jar ${BASE_DIR}/target/${SERVER}.jar" 改为
-JAVA_OPT="${JAVA_OPT} -javaagent:${BASE_DIR}/target/mysql2postgresql-jdbc-agent-1.0.0.jar -jar ${BASE_DIR}/target/${SERVER}.jar" 
-```
+### 使用`JAVA_TOOL_OPTIONS`环境变量注入`javaagent`
 
-## docker 
+`export JAVA_TOOL_OPTIONS=-javaagent:path/to/mysql2postgresql-jdbc-agent-1.0.0.jar`
 
-```
+## k8s环境下注入开启agent
+
+- 将编译的`agent`进行封装到`docker`基础镜像中
+
+```docker
 docker build -t mysql2postgresql-jdbc-agent:1.0.0 .
 ```
 
-## k8s
+- 使用`initContainers`挂载`agent`镜像
+- 增加`agent`环境变量
+
 ```yaml
 apiVersion: apps/v1
 kind: StatefulSet
@@ -125,7 +127,7 @@ spec:
               mountPath: /agent
       volumes:
         - name: mysql2postgresql-jdbc-agent-volume
-          emptyDir: {}
+          emptyDir: { }
   selector:
     matchLabels:
       app: nacos
