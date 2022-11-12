@@ -5,7 +5,7 @@
 - `nacos`基于`2.1.0` 测试
 - `xxljob`基于`2.3.0` 测试
 
-### 使用`JAVA_TOOL_OPTIONS`环境变量注入`javaagent`
+### 使用环境变量`JAVA_TOOL_OPTIONS`注入`javaagent`
 
 `export JAVA_TOOL_OPTIONS=-javaagent:path/to/mysql2postgresql-jdbc-agent-1.0.0.jar`
 
@@ -62,7 +62,7 @@ spec:
             - containerPort: 7848
               name: old-raft-rpc
           env:
-            - name: JAVA_OPT
+            - name: JAVA_TOOL_OPTIONS
               value: "-javaagent:/agent/mysql2postgresql-jdbc-agent-1.0.0.jar"
             - name: DB_URL_0
               value: "jdbc:postgresql://${MYSQL_SERVICE_HOST}:${MYSQL_SERVICE_PORT:5432}/${MYSQL_SERVICE_DB_NAME}?${MYSQL_SERVICE_DB_PARAM:currentSchema=public}"
