@@ -64,8 +64,6 @@ spec:
           env:
             - name: JAVA_TOOL_OPTIONS
               value: "-javaagent:/agent/mysql2postgresql-jdbc-agent-1.0.0.jar"
-            - name: DB_URL_0
-              value: "jdbc:postgresql://${MYSQL_SERVICE_HOST}:${MYSQL_SERVICE_PORT:5432}/${MYSQL_SERVICE_DB_NAME}?${MYSQL_SERVICE_DB_PARAM:currentSchema=public}"
             - name: MYSQL_SERVICE_HOST
               valueFrom:
                 configMapKeyRef:

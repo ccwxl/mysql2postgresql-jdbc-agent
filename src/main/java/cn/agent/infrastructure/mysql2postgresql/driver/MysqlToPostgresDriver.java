@@ -14,6 +14,14 @@ import java.util.Properties;
 public class MysqlToPostgresDriver extends Driver {
     private static final java.sql.Driver INSTANCE = new MysqlToPostgresDriver();
 
+    private static final String MYSQL = "mysql";
+
+    private static final String PG = "postgresql";
+
+    private static final String DEF_MYSQL_PORT = "3306";
+
+    private static final String DEF_PG_PORT = "5432";
+
     static {
         try {
             DriverManager.registerDriver(MysqlToPostgresDriver.INSTANCE);
@@ -24,6 +32,23 @@ public class MysqlToPostgresDriver extends Driver {
 
     @Override
     public Connection connect(String url, Properties info) throws SQLException {
-        return ConnectionWrapper.wrap(super.connect(url, info));
+        String replaceURL = replaceURL(url);
+        return ConnectionWrapper.wrap(super.connect(replaceURL, info));
+    }
+
+    @Override
+    public boolean acceptsURL(String url) {
+        String replaceURL = replaceURL(url);
+        return super.acceptsURL(replaceURL);
+    }
+
+    public String replaceURL(String url) {
+        if (url.contains(MYSQL)) {
+            url = url.replaceAll(MYSQL, PG);
+        }
+        if (url.contains(DEF_MYSQL_PORT)) {
+            url = url.replaceAll(DEF_MYSQL_PORT, DEF_PG_PORT);
+        }
+        return url;
     }
 }
