@@ -2,7 +2,7 @@
 
 - 使用`java agent`无侵入的方式使用`postgresql`替换`mysql`. 参考 `https://github.com/wuwen5/ojdbc-mysql2oracle`
   移植了`postgresql`版本
-- `nacos`基于`2.1.0` 测试
+- `nacos`基于`2.1.0`,`2.1.2` 测试
 - `xxljob`基于`2.3.0` 测试
 
 ### 使用环境变量`JAVA_TOOL_OPTIONS`注入`javaagent`
@@ -13,7 +13,7 @@
 
 - 将编译的`agent`进行封装到`docker`基础镜像中
 
-```docker
+```
 docker build -t mysql2postgresql-jdbc-agent:1.0.0 .
 ```
 
